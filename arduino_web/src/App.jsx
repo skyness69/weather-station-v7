@@ -245,16 +245,18 @@ export default function App() {
                 {/* 1. Deep Ocean Base (Vibrant Earth Blue) */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#003366] via-[#004080] to-[#001020]" />
 
-                {/* 2. Realistic Continent Layer (Rotating) */}
-                <div
-                  className="absolute inset-0 opacity-90 animate-earth-spin-accurate mix-blend-screen"
-                  style={{
-                    backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg')`,
-                    backgroundSize: '200% 100%',
-                    backgroundRepeat: 'repeat-x',
-                    filter: 'sepia(1) hue-rotate(60deg) saturate(3) brightness(1.1)' // Makes them realistic Green/Brown
-                  }}
-                />
+                {/* 2. Realistic Continent Layer (Seamless Slanted Rotation) */}
+                <div className="absolute inset-0 flex animate-earth-spin-seamless opacity-85 mix-blend-screen overflow-visible">
+                  <div
+                    className="h-full w-[200%] flex-none"
+                    style={{
+                      backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg')`,
+                      backgroundSize: '50% 100%',
+                      backgroundRepeat: 'repeat-x',
+                      filter: 'sepia(1) hue-rotate(60deg) saturate(3) brightness(1.2)'
+                    }}
+                  />
+                </div>
 
                 {/* 3. Wispy Cloud Layer (Floating) */}
                 <div
@@ -323,16 +325,16 @@ export default function App() {
           transform: translateY(-4px);
         }
 
-        @keyframes earth-spin-accurate {
-          from { background-position: 0% 0; }
-          to { background-position: 100% 0; }
+        @keyframes earth-spin-seamless {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        .animate-earth-spin-seamless {
+          animation: earth-spin-seamless 30s linear infinite;
         }
         @keyframes earth-clouds {
           from { background-position: 0% 0; }
           to { background-position: -200% 0; }
-        }
-        .animate-earth-spin-accurate {
-          animation: earth-spin-accurate 25s linear infinite;
         }
         .animate-earth-clouds {
           animation: earth-clouds 40s linear m-out infinite;
