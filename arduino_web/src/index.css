@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply m-0 min-h-screen bg-[#181B22] text-[#F9FAFB] antialiased transition-colors duration-1000 ease-in-out;
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+@layer utilities {
+  .panel {
+    @apply bg-[#242731] rounded-[32px] border border-white/5;
+  }
+}
