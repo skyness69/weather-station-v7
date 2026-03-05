@@ -239,47 +239,39 @@ export default function App() {
 
             {/* Earth/Sun/Moon Orbital Visualization */}
             <div className="relative w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center">
-              {/* High-Accuracy Detailed Earth Globe */}
-              <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-full relative z-10 overflow-hidden shadow-[0_0_40px_rgba(59,130,246,0.6)] border border-white/20">
+              {/* High-Accuracy Detailed Earth Globe - Fixed Visibility */}
+              <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-full relative z-10 overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.4)] border border-white/20 bg-[#001D4A]">
 
-                {/* Deep Ocean Layer */}
-                <div className="absolute inset-0 bg-[#001D4A] flex items-center justify-center">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-900/50 to-black" />
-                </div>
+                {/* 1. Base Ocean Layer */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-950 to-black" />
 
-                {/* Accurate Geographical Map Layer */}
+                {/* 2. High-Accuracy Continents (White for high contrast on dark ocean) */}
                 <div
-                  className="absolute inset-0 opacity-80 animate-earth-spin-accurate"
+                  className="absolute inset-0 opacity-60 animate-earth-spin-accurate"
                   style={{
-                    backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/2/23/World_map_with_nations.svg')`,
-                    backgroundSize: '300% 100%',
-                    backgroundRepeat: 'repeat-x',
-                    filter: 'hue-rotate(60deg) saturate(1.5) brightness(1.2)'
-                  }}
-                />
-
-                {/* Cloud/Atmosphere Layer (Floating effect) */}
-                <div
-                  className="absolute inset-0 opacity-20 animate-earth-clouds"
-                  style={{
-                    backgroundImage: `url('https://www.transparenttextures.com/patterns/textured-paper.png')`,
+                    backgroundImage: `url('https://www.transparenttextures.com/patterns/world-map.png')`,
                     backgroundSize: '200% 100%',
+                    backgroundRepeat: 'repeat-x',
+                    filter: 'invert(1) brightness(2) contrast(1.5)'
                   }}
                 />
 
-                {/* Spherical Shading (3D Lighting) */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.25)_0%,transparent_50%)] z-20" />
+                {/* 3. Atmospheric Depth (Inner Glow) */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(59,130,246,0.3)_0%,transparent_70%)] z-10" />
 
-                {/* High-Intensity Shadow Edge */}
-                <div className="absolute inset-0 shadow-[inset_-12px_-12px_25px_rgba(0,0,0,0.8),inset_5px_5px_10px_rgba(255,255,255,0.2)] z-30" />
+                {/* 4. 3D Lighting & Volume */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-transparent to-white/20 z-20" />
 
-                {/* Specular Glint */}
-                <div className="absolute top-1.5 left-2.5 w-3 h-1.5 bg-white/20 blur-[2px] rounded-full rotate-[-45deg] z-40" />
+                {/* 5. Specular Glint (Top Left) */}
+                <div className="absolute top-2 left-3 w-4 h-2 bg-white/30 blur-[3px] rounded-full rotate-[-45deg] z-30" />
+
+                {/* 6. High-Contrast Rim Light */}
+                <div className="absolute inset-0 rounded-full border border-white/10 shadow-[inset_4px_4px_10px_rgba(255,255,255,0.1),inset_-4px_-4px_10px_rgba(0,0,0,0.5)] z-40" />
               </div>
 
-              {/* Orbital Paths (Refined) */}
-              <div className="absolute w-[85%] h-[85%] border border-white/10 rounded-full" />
-              <div className="absolute w-full h-full border border-white/5 rounded-full border-dashed" />
+              {/* Orbital Paths (Refined Shape) */}
+              <div className="absolute w-[80%] h-[80%] border border-white/10 rounded-full" />
+              <div className="absolute w-full h-full border border-white/5 rounded-full border-dashed opacity-40" />
 
               {/* Sun */}
               <div className="absolute w-full h-full animate-orbital-sun">
