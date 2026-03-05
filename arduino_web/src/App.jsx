@@ -242,7 +242,7 @@ export default function App() {
         </div>
 
         <footer className="mt-auto py-8 text-[8px] font-black tracking-[0.5em] text-white/10 uppercase border-t border-white/5 w-full text-center">
-          WEATHER STATION V7 // Telemetry Pipeline // Verified
+          WEATHER SITATION V7
         </footer>
       </div>
 
