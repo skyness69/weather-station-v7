@@ -239,37 +239,45 @@ export default function App() {
 
             {/* Earth/Sun/Moon Orbital Visualization */}
             <div className="relative w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center">
-              {/* High-Accuracy Detailed Earth Globe - Fixed Visibility */}
-              <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-full relative z-10 overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.4)] border border-white/20 bg-[#001D4A]">
+              {/* Realistic "Blue Marble" Earth Globe */}
+              <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-full relative z-10 overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.5)] border border-white/20">
 
-                {/* 1. Base Ocean Layer */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-950 to-black" />
+                {/* 1. Deep Ocean Base (Vibrant Earth Blue) */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#003366] via-[#004080] to-[#001020]" />
 
-                {/* 2. High-Accuracy Continents (White for high contrast on dark ocean) */}
+                {/* 2. Realistic Continent Layer (Rotating) */}
                 <div
-                  className="absolute inset-0 opacity-60 animate-earth-spin-accurate"
+                  className="absolute inset-0 opacity-90 animate-earth-spin-accurate mix-blend-screen"
                   style={{
-                    backgroundImage: `url('https://www.transparenttextures.com/patterns/world-map.png')`,
+                    backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg')`,
                     backgroundSize: '200% 100%',
                     backgroundRepeat: 'repeat-x',
-                    filter: 'invert(1) brightness(2) contrast(1.5)'
+                    filter: 'sepia(1) hue-rotate(60deg) saturate(3) brightness(1.1)' // Makes them realistic Green/Brown
                   }}
                 />
 
-                {/* 3. Atmospheric Depth (Inner Glow) */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(59,130,246,0.3)_0%,transparent_70%)] z-10" />
+                {/* 3. Wispy Cloud Layer (Floating) */}
+                <div
+                  className="absolute inset-0 opacity-30 animate-earth-clouds"
+                  style={{
+                    backgroundImage: `url('https://www.transparenttextures.com/patterns/textured-paper.png')`,
+                    backgroundSize: '300% 100%',
+                    filter: 'brightness(2) contrast(0.5)'
+                  }}
+                />
 
-                {/* 4. 3D Lighting & Volume */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-transparent to-white/20 z-20" />
+                {/* 4. Atmospheric Blue Glow (Cyan Rim) */}
+                <div className="absolute inset-0 rounded-full shadow-[inset_0_0_15px_rgba(34,211,238,0.4)] z-10" />
 
-                {/* 5. Specular Glint (Top Left) */}
-                <div className="absolute top-2 left-3 w-4 h-2 bg-white/30 blur-[3px] rounded-full rotate-[-45deg] z-30" />
+                {/* 5. 3D Spherical Volume Lighting */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.2)_0%,transparent_60%)] z-20" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-transparent z-30 shadow-[inset_-6px_-6px_15px_rgba(0,0,0,0.6)]" />
 
-                {/* 6. High-Contrast Rim Light */}
-                <div className="absolute inset-0 rounded-full border border-white/10 shadow-[inset_4px_4px_10px_rgba(255,255,255,0.1),inset_-4px_-4px_10px_rgba(0,0,0,0.5)] z-40" />
+                {/* 6. Realistic Specular Highlight */}
+                <div className="absolute top-2 left-4 w-5 h-2.5 bg-white/20 blur-[3px] rounded-full rotate-[-35deg] z-40" />
               </div>
 
-              {/* Orbital Paths (Refined Shape) */}
+              {/* Orbital Paths (Luxury Style) */}
               <div className="absolute w-[80%] h-[80%] border border-white/10 rounded-full" />
               <div className="absolute w-full h-full border border-white/5 rounded-full border-dashed opacity-40" />
 
