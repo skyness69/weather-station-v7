@@ -248,7 +248,7 @@ export default function App() {
                 {/* 2. Realistic Continent Layer (Seamless Slanted Rotation) */}
                 <div className="absolute inset-0 flex animate-earth-spin-seamless opacity-85 mix-blend-screen overflow-visible">
                   <div
-                    className="h-full w-[200%] flex-none"
+                    className="h-full w-[400%] flex-none"
                     style={{
                       backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg')`,
                       backgroundSize: '50% 100%',
@@ -263,7 +263,7 @@ export default function App() {
                   className="absolute inset-0 opacity-30 animate-earth-clouds"
                   style={{
                     backgroundImage: `url('https://www.transparenttextures.com/patterns/textured-paper.png')`,
-                    backgroundSize: '300% 100%',
+                    backgroundSize: '200px 200px',
                     filter: 'brightness(2) contrast(0.5)'
                   }}
                 />
@@ -333,11 +333,11 @@ export default function App() {
           animation: earth-spin-seamless 30s linear infinite;
         }
         @keyframes earth-clouds {
-          from { background-position: 0% 0; }
-          to { background-position: -200% 0; }
+          from { background-position: 0 0; }
+          to { background-position: -200px 0; }
         }
         .animate-earth-clouds {
-          animation: earth-clouds 40s linear m-out infinite;
+          animation: earth-clouds 40s linear infinite;
         }
 
         @keyframes orbital-sun {
