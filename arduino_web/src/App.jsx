@@ -238,13 +238,39 @@ export default function App() {
             </div>
 
             {/* Earth/Sun/Moon Orbital Visualization */}
-            <div className="relative w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center">
-              <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-blue-400 via-emerald-400 to-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.3)] border-2 border-white/20 z-10 overflow-hidden">
-                <div className="w-full h-full opacity-30 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] mix-blend-overlay" />
+            <div className="relative w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center">
+              {/* Detailed Earth Globe */}
+              <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-full relative z-10 overflow-hidden shadow-[0_0_30px_rgba(59,130,246,0.5)] border border-white/10 group">
+                {/* Space/Deep Blue Layer */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a8a] via-[#1d4ed8] to-[#172554]" />
+
+                {/* Continent Layer (Animated for Rotation Effect) */}
+                <div className="absolute inset-0 flex animate-earth-spin opacity-40">
+                  <svg className="h-full w-[200%] flex-none" viewBox="0 0 200 100" preserveAspectRatio="none">
+                    <path
+                      d="M10,30 Q25,10 40,30 T70,50 Q85,70 60,85 T30,70 Q15,60 10,30 
+                         M110,30 Q125,10 140,30 T170,50 Q185,70 160,85 T130,70 Q115,60 110,30"
+                      fill="#10b981"
+                    />
+                    <path
+                      d="M80,20 Q90,5 100,20 T110,40 Q100,50 80,45 Z 
+                         M180,20 Q190,5 200,20 T210,40 Q200,50 180,45 Z"
+                      fill="#34d399"
+                    />
+                  </svg>
+                </div>
+
+                {/* 3D Shading & Specular Highlight */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.2)_0%,transparent_60%)]" />
+                <div className="absolute inset-0 shadow-[inset_-10px_-10px_20px_rgba(0,0,0,0.5),inset_10px_10px_15px_rgba(255,255,255,0.1)]" />
+
+                {/* Atmospheric Glow */}
+                <div className="absolute inset-0 rounded-full border border-blue-400/20 blur-[1px]" />
               </div>
 
+              {/* Orbital Paths */}
               <div className="absolute w-[80%] h-[80%] border border-white/5 rounded-full" />
-              <div className="absolute w-full h-full border border-white/10 rounded-full border-dashed" />
+              <div className="absolute w-full h-full border border-white/5 rounded-full border-dashed opacity-50" />
 
               {/* Sun */}
               <div className="absolute w-full h-full animate-orbital-sun">
@@ -286,6 +312,14 @@ export default function App() {
           background: rgba(255, 255, 255, 0.05);
           border: 1px solid rgba(255, 255, 255, 0.15);
           transform: translateY(-4px);
+        }
+
+        @keyframes earth-spin {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        .animate-earth-spin {
+          animation: earth-spin 15s linear infinite;
         }
 
         @keyframes orbital-sun {
