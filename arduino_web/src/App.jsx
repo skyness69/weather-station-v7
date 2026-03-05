@@ -183,15 +183,34 @@ export default function App() {
             </div>
           </div>
 
-          {/* Widget 5: Last Seen Details */}
-          <div className="glass-panel-compact p-4 sm:p-6 flex flex-col justify-between overflow-hidden">
-            <div className="flex items-center gap-2">
-              <History className="w-4 h-4 text-amber-500" />
-              <span className="text-[9px] font-black text-white/20 uppercase tracking-widest">Last Feed</span>
+          {/* Widget 5: Last Seen Details - Premium Redesign */}
+          <div className="glass-panel-compact p-5 sm:p-7 flex flex-col justify-between overflow-hidden relative group">
+            {/* Subtle highlight glow */}
+            <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 blur-[40px] rounded-full group-hover:bg-amber-500/20 transition-all duration-700" />
+
+            <div className="flex items-center justify-between relative z-10">
+              <div className="flex items-center gap-2">
+                <div className="p-2 bg-amber-500/10 rounded-lg">
+                  <History className="w-4 h-4 text-amber-500" />
+                </div>
+                <span className="text-[10px] sm:text-[11px] font-black text-white/40 uppercase tracking-[0.2em]">Latest Sync</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/5">
+                <div className={`w-1.5 h-1.5 rounded-full ${isOnline ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`} />
+                <span className="text-[8px] font-black text-white/30 tracking-widest uppercase">{isOnline ? 'Live' : 'Static'}</span>
+              </div>
             </div>
-            <div className="mt-2 flex flex-col">
-              <span className="text-lg sm:text-xl font-bold text-white leading-tight">{device.lastTime || "--:--"}</span>
-              <span className="text-[10px] font-bold text-white/30">{device.lastDate || "---"}</span>
+
+            <div className="mt-4 flex flex-col relative z-10">
+              <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-none tracking-tighter mb-1">
+                {device.lastTime || "SYNCING..."}
+              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] sm:text-[11px] font-bold text-white/20 tracking-widest uppercase">
+                  {device.lastDate || "---"}
+                </span>
+                <div className="h-px flex-1 bg-white/5" />
+              </div>
             </div>
           </div>
 
