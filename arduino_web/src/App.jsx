@@ -12,7 +12,8 @@ import {
   Sunset,
   Wifi,
   WifiOff,
-  History
+  History,
+  CloudSun
 } from 'lucide-react';
 
 export default function App() {
@@ -107,7 +108,7 @@ export default function App() {
         <header className="w-full flex justify-between items-center mb-8 lg:mb-12">
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
-              <Zap className="text-white w-4 h-4 sm:w-6 sm:h-6 fill-current" />
+              <CloudSun className="text-white w-4 h-4 sm:w-6 sm:h-6 fill-current" />
             </div>
             <h1 className="text-lg sm:text-xl font-black tracking-tighter text-white uppercase italic text-nowrap">WEATHER STATION V7</h1>
           </div>
