@@ -336,10 +336,11 @@ export default function App() {
         }
 
         @keyframes earth-spin-seamless {
-          from { transform: translateX(0); }
-          to { transform: translateX(-50%); }
+          from { -webkit-transform: translateX(0); transform: translateX(0); }
+          to { -webkit-transform: translateX(-50%); transform: translateX(-50%); }
         }
         .animate-earth-spin-seamless {
+          -webkit-animation: earth-spin-seamless 30s linear infinite;
           animation: earth-spin-seamless 30s linear infinite;
         }
         @keyframes earth-clouds {
@@ -347,22 +348,25 @@ export default function App() {
           to { background-position: -200px 0; }
         }
         .animate-earth-clouds {
+          -webkit-animation: earth-clouds 40s linear infinite;
           animation: earth-clouds 40s linear infinite;
         }
 
         @keyframes orbital-sun {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+          to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
         }
         @keyframes orbital-moon {
-          from { transform: rotate(180deg); }
-          to { transform: rotate(540deg); }
+          from { -webkit-transform: rotate(180deg); transform: rotate(180deg); }
+          to { -webkit-transform: rotate(540deg); transform: rotate(540deg); }
         }
         
         .animate-orbital-sun {
+          -webkit-animation: orbital-sun 20s linear infinite;
           animation: orbital-sun 20s linear infinite;
         }
         .animate-orbital-moon {
+          -webkit-animation: orbital-moon 30s linear infinite;
           animation: orbital-moon 30s linear infinite;
         }
       `}</style>
