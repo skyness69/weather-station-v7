@@ -56,6 +56,10 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const n of t
           transform: translateY(-4px);
         }
 
+        @-webkit-keyframes earth-spin-seamless {
+          from { -webkit-transform: translateX(0); }
+          to { -webkit-transform: translateX(-50%); }
+        }
         @keyframes earth-spin-seamless {
           from { -webkit-transform: translateX(0); transform: translateX(0); }
           to { -webkit-transform: translateX(-50%); transform: translateX(-50%); }
@@ -63,6 +67,11 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const n of t
         .animate-earth-spin-seamless {
           -webkit-animation: earth-spin-seamless 30s linear infinite;
           animation: earth-spin-seamless 30s linear infinite;
+        }
+
+        @-webkit-keyframes earth-clouds {
+          from { background-position: 0 0; }
+          to { background-position: -200px 0; }
         }
         @keyframes earth-clouds {
           from { background-position: 0 0; }
@@ -73,9 +82,18 @@ FIREBASE: `))}restoreState_(){this.tryAuth(),this.tryAppCheck();for(const n of t
           animation: earth-clouds 40s linear infinite;
         }
 
+        @-webkit-keyframes orbital-sun {
+          from { -webkit-transform: rotate(0deg); }
+          to { -webkit-transform: rotate(360deg); }
+        }
         @keyframes orbital-sun {
           from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
           to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+        }
+
+        @-webkit-keyframes orbital-moon {
+          from { -webkit-transform: rotate(180deg); }
+          to { -webkit-transform: rotate(540deg); }
         }
         @keyframes orbital-moon {
           from { -webkit-transform: rotate(180deg); transform: rotate(180deg); }
