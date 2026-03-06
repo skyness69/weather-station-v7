@@ -109,7 +109,7 @@ export default function App() {
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
               <Zap className="text-white w-4 h-4 sm:w-6 sm:h-6 fill-current" />
             </div>
-            <h1 className="text-lg sm:text-xl font-black tracking-tighter text-white uppercase italic">STATION_V7</h1>
+            <h1 className="text-lg sm:text-xl font-black tracking-tighter text-white uppercase italic text-nowrap">WEATHER STATION V7</h1>
           </div>
 
           <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-500 bg-white/5 ${isOnline ? 'border-green-500/30 text-green-400' : 'border-red-500/30 text-red-500'}`}>
@@ -298,7 +298,7 @@ export default function App() {
         </div>
 
         <footer className="mt-auto py-8 text-[8px] font-black tracking-[0.5em] text-white/10 uppercase border-t border-white/5 w-full text-center">
-          STATION V7
+          WEATHER STATION V7
         </footer>
       </div>
 
