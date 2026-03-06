@@ -153,7 +153,7 @@ export default function App() {
                 {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
               <div className="text-[10px] sm:text-xs font-bold text-white/30 tracking-widest uppercase">
-                {currentTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                {currentTime.getFullYear()}-{String(currentTime.getMonth() + 1).padStart(2, '0')}-{String(currentTime.getDate()).padStart(2, '0')}
               </div>
             </div>
           </div>
@@ -208,7 +208,7 @@ export default function App() {
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] sm:text-[11px] font-bold text-white/20 tracking-widest uppercase">
-                  {device.lastDate || "---"}
+                  {device.lastDate.includes('-') ? device.lastDate.split('-').reverse().join('-') : (device.lastDate || "---")}
                 </span>
                 <div className="h-px flex-1 bg-white/5" />
               </div>
