@@ -7,13 +7,14 @@ import {
   Thermometer,
   Clock,
   Calendar,
-  Zap,
   Sunrise,
   Sunset,
   Wifi,
   WifiOff,
   History,
-  CloudSun
+  CloudSun,
+  Wind,
+  CloudRain
 } from 'lucide-react';
 
 export default function App() {
@@ -32,6 +33,27 @@ export default function App() {
   });
 
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [weather, setWeather] = useState({
+    windSpeed: 0,
+    rainChance: 0
+  });
+
+  const fetchWeather = async () => {
+    try {
+      const cityName = "Basra";
+      const apiKey = "7d9645d29605904385551ad95b1f76aa";
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=metric`);
+      const data = await response.json();
+      if (data && data.list && data.list.length > 0) {
+        setWeather({
+          windSpeed: data.list[0].wind.speed || 0,
+          rainChance: (data.list[0].pop * 100) || 0
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching weather:", error);
+    }
+  };
 
   useEffect(() => {
     const clockTimer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -62,8 +84,12 @@ export default function App() {
       }
     });
 
+    fetchWeather();
+    const weatherTimer = setInterval(fetchWeather, 30 * 60 * 1000); // Update every 30 mins
+
     return () => {
       clearInterval(clockTimer);
+      clearInterval(weatherTimer);
       unsubscribeLive();
       unsubscribeDevice();
     };
@@ -295,6 +321,33 @@ export default function App() {
               </div>
             </div>
           </div>
+
+          {/* Widget 7: Wind Speed */}
+          <div className="glass-panel-compact p-4 sm:p-6 flex flex-col justify-between">
+            <div className="flex justify-between items-start">
+              <Wind className="w-5 h-5 text-indigo-400" />
+              <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Airflow</span>
+            </div>
+            <div>
+              <div className="text-3xl sm:text-5xl font-black text-white tracking-tighter leading-none">{weather.windSpeed.toFixed(1)}</div>
+              <div className="text-[9px] font-black text-indigo-400/60 uppercase tracking-widest mt-1 italic">Meters / Sec</div>
+            </div>
+          </div>
+
+          {/* Widget 8: Rain Chance */}
+          <div className="glass-panel-compact p-4 sm:p-6 flex flex-col justify-between">
+            <div className="flex justify-between items-start">
+              <CloudRain className="w-5 h-5 text-blue-400" />
+              <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Precip</span>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="text-3xl sm:text-5xl font-black text-white tracking-tighter leading-none">{weather.rainChance.toFixed(0)}%</div>
+              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 shadow-[0_0_8px_rgba(59,130,246,0.5)] transition-all duration-1000" style={{ width: `${weather.rainChance}%` }} />
+              </div>
+            </div>
+          </div>
+
 
         </div>
 
