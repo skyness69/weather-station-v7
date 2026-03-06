@@ -46,7 +46,7 @@ export default function App() {
       const data = await response.json();
       if (data && data.list && data.list.length > 0) {
         setWeather({
-          windSpeed: data.list[0].wind.speed || 0,
+          windSpeed: (data.list[0].wind.speed * 3.6) || 0,
           rainChance: (data.list[0].pop * 100) || 0
         });
       }
@@ -329,8 +329,8 @@ export default function App() {
               <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Airflow</span>
             </div>
             <div>
-              <div className="text-3xl sm:text-5xl font-black text-white tracking-tighter leading-none">{weather.windSpeed.toFixed(1)}</div>
-              <div className="text-[9px] font-black text-indigo-400/60 uppercase tracking-widest mt-1 italic">Meters / Sec</div>
+              <div className="text-3xl sm:text-5xl font-black text-white tracking-tighter leading-none">{weather.windSpeed.toFixed(0)}</div>
+              <div className="text-[9px] font-black text-indigo-400/60 uppercase tracking-widest mt-1 italic">KM / H</div>
             </div>
           </div>
 
