@@ -240,7 +240,7 @@ export default function App() {
             {/* Earth/Sun/Moon Orbital Visualization */}
             <div className="relative w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center">
               {/* Realistic "Blue Marble" Earth Globe */}
-              <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-full relative z-10 overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.5)] border border-white/20">
+              <div className="globe-sphere w-14 h-14 sm:w-20 sm:h-20 rounded-full relative z-10 overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.5)] border border-white/20">
 
                 {/* 1. Deep Ocean Base (Vibrant Earth Blue) */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#003366] via-[#004080] to-[#001020]" />
@@ -303,6 +303,16 @@ export default function App() {
       </div>
 
       <style>{`
+        .globe-sphere {
+          isolation: isolate;
+          -webkit-mask-image: -webkit-radial-gradient(white, black);
+          mask-image: radial-gradient(white, black);
+          transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+
         .glass-panel-compact {
           background: rgba(255, 255, 255, 0.03);
           backdrop-filter: blur(40px);
