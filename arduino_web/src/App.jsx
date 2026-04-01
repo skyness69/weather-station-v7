@@ -9,12 +9,12 @@ import {
   Calendar,
   Sunrise,
   Sunset,
-  Wifi,
-  WifiOff,
   History,
   CloudSun,
   Wind,
-  CloudRain
+  CloudRain,
+  Sparkles,
+  CloudLightning
 } from 'lucide-react';
 
 export default function App() {
@@ -22,6 +22,8 @@ export default function App() {
     temperature: 0,
     humidity: 0,
     pressure: 0,
+    airQuality: "Pending",
+    rainStatus: "Pending",
     time: "--:--",
     date: "Awaiting..."
   });
@@ -33,63 +35,56 @@ export default function App() {
   });
 
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [weather, setWeather] = useState({
-    windSpeed: 0,
-    rainChance: 0
-  });
-
-  const fetchWeather = async () => {
-    try {
-      const cityName = "Basra";
-      const apiKey = "7d9645d29605904385551ad95b1f76aa";
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=metric`);
-      const data = await response.json();
-      if (data && data.list && data.list.length > 0) {
-        setWeather({
-          windSpeed: (data.list[0].wind.speed * 3.6) || 0,
-          rainChance: (data.list[0].pop * 100) || 0
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching weather:", error);
-    }
-  };
 
   useEffect(() => {
     const clockTimer = setInterval(() => setCurrentTime(new Date()), 1000);
 
+    console.log("Setting up Firebase listeners...");
+
     const liveRef = ref(database, 'Live_Weather');
-    const unsubscribeLive = onValue(liveRef, (snapshot) => {
-      const val = snapshot.val();
-      if (val) {
-        setData({
-          temperature: val.Temperature || 0,
-          humidity: val.Humidity || 0,
-          pressure: val.Pressure || 0,
-          time: val.Time || "--:--",
-          date: val.Date || ""
-        });
+    const unsubscribeLive = onValue(liveRef, 
+      (snapshot) => {
+        const val = snapshot.val();
+        console.log("Live Weather Snapshot received:", val);
+        if (val) {
+          setData({
+            temperature: val.Temperature || 0,
+            humidity: val.Humidity || 0,
+            pressure: val.Pressure || 0,
+            airQuality: val.AirQuality || "Unknown",
+            rainStatus: val.RainStatus || "Unknown",
+            time: val.Time || "--:--",
+            date: val.Date || ""
+          });
+        } else {
+          console.warn("Live_Weather snapshot is null!");
+        }
+      }, 
+      (error) => {
+        console.error("Firebase Live_Weather Error:", error);
       }
-    });
+    );
 
     const deviceRef = ref(database, 'device');
-    const unsubscribeDevice = onValue(deviceRef, (snapshot) => {
-      const val = snapshot.val();
-      if (val) {
-        setDevice({
-          status: val.status || "OFFLINE",
-          lastTime: val.last_seen_time || "",
-          lastDate: val.last_seen_date || ""
-        });
+    const unsubscribeDevice = onValue(deviceRef, 
+      (snapshot) => {
+        const val = snapshot.val();
+        console.log("Device Status Snapshot received:", val);
+        if (val) {
+          setDevice({
+            status: val.status || "OFFLINE",
+            lastTime: val.last_seen_time || "",
+            lastDate: val.last_seen_date || ""
+          });
+        }
+      },
+      (error) => {
+        console.error("Firebase Device Status Error:", error);
       }
-    });
-
-    fetchWeather();
-    const weatherTimer = setInterval(fetchWeather, 30 * 60 * 1000); // Update every 30 mins
+    );
 
     return () => {
       clearInterval(clockTimer);
-      clearInterval(weatherTimer);
       unsubscribeLive();
       unsubscribeDevice();
     };
@@ -145,7 +140,7 @@ export default function App() {
           </div>
         </header>
 
-        {/* The 7 Widgets Bento Grid */}
+        {/* Bento Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 w-full auto-rows-fr">
 
           {/* Widget 1: Temperature (Hero) */}
@@ -210,9 +205,8 @@ export default function App() {
             </div>
           </div>
 
-          {/* Widget 5: Last Seen Details - Premium Redesign */}
+          {/* Widget 5: Last Seen Details */}
           <div className="glass-panel-compact p-5 sm:p-7 flex flex-col justify-between overflow-hidden relative group">
-            {/* Subtle highlight glow */}
             <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 blur-[40px] rounded-full group-hover:bg-amber-500/20 transition-all duration-700" />
 
             <div className="flex items-center justify-between relative z-10">
@@ -241,7 +235,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Widget 6: Orbital Redesign (Sunrise/Sunset) */}
+          {/* Widget 6: Sunrise/Sunset Orbital */}
           <div className="col-span-2 glass-panel-compact p-4 sm:p-8 flex items-center justify-between overflow-hidden bg-gradient-to-br from-white/[0.04] to-transparent">
             <div className="flex flex-col gap-4 sm:gap-6">
               <div className="flex items-center gap-3">
@@ -266,13 +260,8 @@ export default function App() {
 
             {/* Earth/Sun/Moon Orbital Visualization */}
             <div className="relative w-28 h-28 sm:w-36 sm:h-36 flex items-center justify-center">
-              {/* Realistic "Blue Marble" Earth Globe */}
               <div className="globe-sphere w-14 h-14 sm:w-20 sm:h-20 rounded-full relative z-10 overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.5)] border border-white/20">
-
-                {/* 1. Deep Ocean Base (Vibrant Earth Blue) */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#003366] via-[#004080] to-[#001020]" />
-
-                {/* 2. Realistic Continent Layer (Seamless Slanted Rotation) */}
                 <div className="absolute inset-0 flex animate-earth-spin-seamless opacity-85 mix-blend-screen overflow-visible">
                   <div
                     className="h-full w-[400%] flex-none"
@@ -284,8 +273,6 @@ export default function App() {
                     }}
                   />
                 </div>
-
-                {/* 3. Wispy Cloud Layer (Floating) */}
                 <div
                   className="absolute inset-0 opacity-30 animate-earth-clouds"
                   style={{
@@ -294,60 +281,59 @@ export default function App() {
                     filter: 'brightness(2) contrast(0.5)'
                   }}
                 />
-
-                {/* 4. Atmospheric Blue Glow (Cyan Rim) */}
                 <div className="absolute inset-0 rounded-full shadow-[inset_0_0_15px_rgba(34,211,238,0.4)] z-10" />
-
-                {/* 5. 3D Spherical Volume Lighting */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.2)_0%,transparent_60%)] z-20" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-transparent z-30 shadow-[inset_-6px_-6px_15px_rgba(0,0,0,0.6)]" />
-
-                {/* 6. Realistic Specular Highlight */}
                 <div className="absolute top-2 left-4 w-5 h-2.5 bg-white/20 blur-[3px] rounded-full rotate-[-35deg] z-40" />
               </div>
 
-              {/* Orbital Paths (Luxury Style) */}
               <div className="absolute w-[80%] h-[80%] border border-white/10 rounded-full" />
               <div className="absolute w-full h-full border border-white/5 rounded-full border-dashed opacity-40" />
 
-              {/* Sun */}
               <div className="absolute w-full h-full animate-orbital-sun">
                 <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-yellow-400 shadow-[0_0_15px_#facc15] border border-white/40 absolute -top-1 sm:-top-2 left-1/2 -translate-x-1/2" />
               </div>
 
-              {/* Moon */}
               <div className="absolute w-[80%] h-[80%] animate-orbital-moon">
                 <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-slate-300 shadow-[0_0_10px_#cbd5e1] border border-white/40 absolute -bottom-1 left-1/2 -translate-x-1/2" />
               </div>
             </div>
           </div>
 
-          {/* Widget 7: Wind Speed */}
-          <div className="glass-panel-compact p-4 sm:p-6 flex flex-col justify-between">
+          {/* Widget 7: Air Quality */}
+          <div className="glass-panel-compact p-4 sm:p-6 flex flex-col justify-between group">
             <div className="flex justify-between items-start">
-              <Wind className="w-5 h-5 text-indigo-400" />
-              <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Airflow</span>
+              <Wind className={`w-5 h-5 transition-colors ${data.airQuality === 'Clean' ? 'text-teal-400' : 'text-orange-400'}`} />
+              <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Air Quality</span>
             </div>
-            <div>
-              <div className="text-3xl sm:text-5xl font-black text-white tracking-tighter leading-none">{weather.windSpeed.toFixed(0)}</div>
-              <div className="text-[9px] font-black text-indigo-400/60 uppercase tracking-widest mt-1 italic">KM / H</div>
-            </div>
-          </div>
-
-          {/* Widget 8: Rain Chance */}
-          <div className="glass-panel-compact p-4 sm:p-6 flex flex-col justify-between">
-            <div className="flex justify-between items-start">
-              <CloudRain className="w-5 h-5 text-blue-400" />
-              <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Precip</span>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="text-3xl sm:text-5xl font-black text-white tracking-tighter leading-none">{weather.rainChance.toFixed(0)}%</div>
-              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 shadow-[0_0_8px_rgba(59,130,246,0.5)] transition-all duration-1000" style={{ width: `${weather.rainChance}%` }} />
+            <div className="flex flex-col">
+              <div className={`text-2xl sm:text-3xl font-black tracking-tighter leading-none mb-1 ${data.airQuality === 'Clean' ? 'text-teal-400' : 'text-orange-400'}`}>
+                {data.airQuality.toUpperCase()}
+              </div>
+              <div className="flex items-center gap-1">
+                <Sparkles className="w-2 h-2 text-white/20" />
+                <span className="text-[9px] font-bold text-white/20 uppercase tracking-widest">Index Check</span>
               </div>
             </div>
           </div>
 
+          {/* Widget 8: Rain Status */}
+          <div className="glass-panel-compact p-4 sm:p-6 flex flex-col justify-between group">
+            <div className="flex justify-between items-start">
+              {data.rainStatus === 'Raining' ? (
+                <CloudLightning className="w-5 h-5 text-blue-400 animate-pulse" />
+              ) : (
+                <CloudRain className="w-5 h-5 text-white/20" />
+              )}
+              <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">Precipitation</span>
+            </div>
+            <div className="flex flex-col">
+              <div className="text-2xl sm:text-3xl font-black text-white tracking-tighter leading-none mb-1">
+                {data.rainStatus}
+              </div>
+              <div className="text-[9px] font-bold text-white/20 uppercase tracking-widest">Radar Status</div>
+            </div>
+          </div>
 
         </div>
 
